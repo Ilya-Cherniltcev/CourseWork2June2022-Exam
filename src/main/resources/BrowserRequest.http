@@ -1,0 +1,13 @@
+http://localhost:8080/exam/java/
+###
+http://localhost:8080/exam/java/add?question=How?&answer=sow
+###
+http://localhost:8080/exam/java/add?question=wHEN?&answer=THeN
+###
+http://localhost:8080/exam/java/add?question=wHAT?&answer=tHaT
+###
+http://localhost:8080/exam/java/add?question=How are you?&answer=I'm fine
+###
+http://localhost:8080/exam/java/add?question=What about you?&answer=So-so
+###
+http://localhost:8080/exam/get?amount=1
