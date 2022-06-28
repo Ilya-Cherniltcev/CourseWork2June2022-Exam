@@ -4,16 +4,12 @@ import pro.sky.june2022.coursework2exam.data.Question;
 
 import java.util.Collection;
 
-public interface QuestionService {
+public interface QuestionRepository {
 
+    Question add(Question question);
 
-    Question add(String question, String answer);
-
-    Question remove(String question, String answer);
-
+    Question remove(Question question);
 
     Collection<Question> getAll();
-
-    Question getRandomQuestion();
 
 }

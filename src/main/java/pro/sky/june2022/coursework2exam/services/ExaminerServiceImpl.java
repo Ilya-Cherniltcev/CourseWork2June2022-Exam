@@ -24,7 +24,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Collection<Question> getQuestion(int amount) {
         validateNull(amount);
-        int questNumbers = questionService.getSizeOfMap();
+        int questNumbers = questionService.getAll().size();
         int leftNumbers = questNumbers - count;
         if (leftNumbers < amount) {
             throw new WrongSizeOfListException("Too many questions");
