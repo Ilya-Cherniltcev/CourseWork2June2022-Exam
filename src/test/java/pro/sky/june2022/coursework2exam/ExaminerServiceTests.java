@@ -12,7 +12,6 @@ import pro.sky.june2022.coursework2exam.services.ExaminerServiceImpl;
 import pro.sky.june2022.coursework2exam.services.JavaQuestionService;
 
 import java.util.Collection;
-import java.util.List;
 
 import static pro.sky.june2022.coursework2exam.QuestionServiceTestConstants.*;
 
@@ -25,14 +24,12 @@ public class ExaminerServiceTests {
 
     @Test
     public void shouldReturnQuestions() {
-     //   questionService.add(ADDING_QUESTION_QUESTION, ADDING_QUESTION_ANSWER);
+        Mockito.when(questionService.getRandomQuestion())
+                .thenReturn(EXAMPLE_QUESTION);
         Mockito.when(questionService.getAll())
-                .thenReturn(ALL_QUESTIONS);
-        Mockito.when(examinerService.getQuestion(1))
                 .thenReturn(EXAMPLE_COLLECTION);
 
         Collection<Question> actualCollection = examinerService.getQuestion(1);
-     //  Question actual = actualCollection.get(0);
         Assertions.assertEquals(EXAMPLE_COLLECTION, actualCollection);
     }
 }

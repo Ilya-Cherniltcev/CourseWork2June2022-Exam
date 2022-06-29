@@ -4,10 +4,12 @@ import org.springframework.stereotype.Repository;
 import pro.sky.june2022.coursework2exam.exceptions.WrongRequestOfQuestionsException;
 import pro.sky.june2022.coursework2exam.interfaces.QuestionRepository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Repository
-public class JavaQuestionRepository implements QuestionRepository {
+public class MathQuestionRepository implements QuestionRepository {
     private final Set<Question> questions = new HashSet<>();
 
     @Override
