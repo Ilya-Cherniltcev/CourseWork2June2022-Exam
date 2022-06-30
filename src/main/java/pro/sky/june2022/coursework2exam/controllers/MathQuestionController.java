@@ -12,7 +12,7 @@ import pro.sky.june2022.coursework2exam.interfaces.QuestionService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping(path = "/exam/java")
+@RequestMapping(path = "/exam/math")
 
 public class MathQuestionController {
     private final QuestionService questionService;

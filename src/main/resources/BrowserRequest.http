@@ -1,13 +1,29 @@
 http://localhost:8080/exam/java/
 ###
-http://localhost:8080/exam/java/add?question=How?&answer=sow
+http://localhost:8080/exam/java/add?question=Java1?&answer=10
 ###
-http://localhost:8080/exam/java/add?question=wHEN?&answer=THeN
+http://localhost:8080/exam/java/add?question=Java2?&answer=20
 ###
-http://localhost:8080/exam/java/add?question=wHAT?&answer=tHaT
+http://localhost:8080/exam/java/add?question=Java3?&answer=30
 ###
-http://localhost:8080/exam/java/add?question=How are you?&answer=I'm fine
+http://localhost:8080/exam/java/add?question=Java4?&answer=40
 ###
-http://localhost:8080/exam/java/add?question=What about you?&answer=So-so
+http://localhost:8080/exam/java/add?question=Java5?&answer=50
+
 ###
-http://localhost:8080/exam/get?amount=1
+http://localhost:8080/exam/math/
+###
+http://localhost:8080/exam/math/add?question=Math1?&answer=11
+###
+http://localhost:8080/exam/math/add?question=Math2?&answer=22
+###
+http://localhost:8080/exam/math/add?question=Math3?&answer=33
+###
+http://localhost:8080/exam/math/add?question=Math4?&answer=44
+###
+http://localhost:8080/exam/math/add?question=Math5?&answer=55
+
+
+###
+http://localhost:8080/exam/get?amount=3
+

@@ -18,7 +18,8 @@ public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionService javaQuestionService;
     private final QuestionService mathQuestionService;
     Set<Question> questionSet = new HashSet<>();
-    int count;
+    int countJavaQuestions;
+    int countMathQuestions;
 
     public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaQuestionService,
                                @Qualifier("mathQuestionService") QuestionService mathQuestionService) {
@@ -29,47 +30,63 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Collection<Question> getQuestion(int amount) {
         validateNull(amount);
-        int allQuestions = javaQuestionService.getAll().size()
-                + mathQuestionService.getAll().size();
-        int leftNumbers = allQuestions - count;
-        if (leftNumbers < amount) {
+        int javaAllQuestions = javaQuestionService.getAll().size();
+        int mathAllQuestions = mathQuestionService.getAll().size();
+        int allQuestions = javaAllQuestions + mathAllQuestions;
+        int leftQuestionsJava =javaAllQuestions - countJavaQuestions;
+        int leftQuestionsMath =mathAllQuestions - countMathQuestions;
+        if (allQuestions < amount) {
             throw new WrongSizeOfListException("Too many questions");
         }
-        // --- определяем случайным образом количество вопросов из java
+
         Random random = new Random();
-        int javaNum = random.nextInt(leftNumbers);
-        // --- оставшееся количество вопросов выбираем из math
-        int mathNum = leftNumbers - javaNum;
+        int randomNumbersQuestions = 0;
+        int javaNum = 0;
+        int mathNum = 0;
+        while (randomNumbersQuestions < amount) {
+            // --- определяем случайным образом количество вопросов из java
+            javaNum = random.nextInt(leftQuestionsJava);
+            // --- путем остатка находим количество вопросов math
+            // --- и сравниваем его с числом оставшихся вопросов
+            // --- При необходимости, определяем их кол-во случайным образом
+            mathNum = amount - javaNum;
+            if (mathNum > leftQuestionsMath) {
+                mathNum = random.nextInt(leftQuestionsMath);
+                javaNum = amount - mathNum;
+            }
+            if (javaNum > leftQuestionsJava) {
+                javaNum = random.nextInt(leftQuestionsJava);
+            }
+            randomNumbersQuestions = javaNum + mathNum;
+        }
         Collection<Question> tempSet = new HashSet<>();
-        Collection<Question> tempSet1 = new HashSet<>();
+        Collection<Question> tempSetMath = new HashSet<>();
         if (javaNum != 0) {
             tempSet = getRandomCollection(javaQuestionService, javaNum);
+            countJavaQuestions += tempSet.size();
         }
         if (mathNum != 0) {
-            tempSet1 = getRandomCollection(mathQuestionService, mathNum);
+            tempSetMath = getRandomCollection(mathQuestionService, mathNum);
+            countMathQuestions += tempSetMath.size();
         }
-        tempSet.addAll(tempSet1);
-
+        tempSet.addAll(tempSetMath);
+        questionSet.addAll(tempSet);
         return tempSet;
     }
 
     // -----------
     private Collection<Question> getRandomCollection (QuestionService qService, int amount) {
         int numbersOfQuestions = 0;
-        Collection<Question> tempSet = new HashSet<>();
+        Collection<Question> tempS = new HashSet<>();
         Question tempQuestion;
 
         while (numbersOfQuestions < amount) {
             tempQuestion = qService.getRandomQuestion();
-            if (!questionSet.isEmpty() && questionSet.contains(tempQuestion)) {
-                continue;
+            if (tempS.add(tempQuestion)) {
+                numbersOfQuestions++;
             }
-            questionSet.add(tempQuestion);
-            tempSet.add(tempQuestion);
-            numbersOfQuestions++;
         }
-        count += amount;
-        return tempSet;
+        return tempS;
     }
     // -------------------------------------------------------
     private void validateNull(int inputString) {
