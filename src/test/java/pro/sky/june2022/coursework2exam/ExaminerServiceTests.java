@@ -13,7 +13,7 @@ import pro.sky.june2022.coursework2exam.services.JavaQuestionService;
 
 import java.util.Collection;
 
-import static pro.sky.june2022.coursework2exam.QuestionServiceTestConstants.*;
+import static pro.sky.june2022.coursework2exam.JavaQuestionServiceTestConstants.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ExaminerServiceTests {

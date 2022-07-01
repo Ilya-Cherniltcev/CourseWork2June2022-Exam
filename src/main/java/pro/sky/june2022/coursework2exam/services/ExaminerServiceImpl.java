@@ -18,8 +18,8 @@ public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionService javaQuestionService;
     private final QuestionService mathQuestionService;
     Set<Question> questionSet = new HashSet<>();
-    int countJavaQuestions;
-    int countMathQuestions;
+    int countJavaQuestions; // счетчик запрошенных вопросов по java
+    int countMathQuestions; // счетчик запрошенных вопросов по math
 
     public ExaminerServiceImpl(@Qualifier("javaQuestionService") QuestionService javaQuestionService,
                                @Qualifier("mathQuestionService") QuestionService mathQuestionService) {
@@ -33,54 +33,61 @@ public class ExaminerServiceImpl implements ExaminerService {
         int javaAllQuestions = javaQuestionService.getAll().size();
         int mathAllQuestions = mathQuestionService.getAll().size();
         int allQuestions = javaAllQuestions + mathAllQuestions;
-        int leftQuestionsJava =javaAllQuestions - countJavaQuestions;
-        int leftQuestionsMath =mathAllQuestions - countMathQuestions;
+        // ====== число "оставшихся" вопросов по каждой теме
+        int leftQuestionsJava = javaAllQuestions - countJavaQuestions;
+        int leftQuestionsMath = mathAllQuestions - countMathQuestions;
         if (allQuestions < amount) {
             throw new WrongSizeOfListException("Too many questions");
         }
-
-        Random random = new Random();
-        int randomNumbersQuestions = 0;
         int javaNum = 0;
         int mathNum = 0;
-        while (randomNumbersQuestions < amount) {
-            // --- определяем случайным образом количество вопросов из java
-            javaNum = random.nextInt(leftQuestionsJava);
-            // --- путем остатка находим количество вопросов math
-            // --- и сравниваем его с числом оставшихся вопросов
-            // --- При необходимости, определяем их кол-во случайным образом
-            mathNum = amount - javaNum;
-            if (mathNum > leftQuestionsMath) {
-                mathNum = random.nextInt(leftQuestionsMath);
-                javaNum = amount - mathNum;
-            }
-            if (javaNum > leftQuestionsJava) {
-                javaNum = random.nextInt(leftQuestionsJava);
-            }
-            randomNumbersQuestions = javaNum + mathNum;
+        // ======  если запрошенное число вопросов равно общему кол-ву
+        // ======  оставшихся вопросов, то число отобранных вопросов
+        // ======  по каждой теме равно оставшемуся числу вопросов по данной теме
+        if (amount == (leftQuestionsJava + leftQuestionsMath)) {
+            javaNum = leftQuestionsJava;
+            mathNum = leftQuestionsMath;
         }
+        // ======   Иначе - вызываем метод, генерирующий случайное число вопросов
+        if (leftQuestionsJava < leftQuestionsMath) {
+            javaNum = getNumbersOfQuestions(leftQuestionsJava, leftQuestionsMath, amount);
+            mathNum = amount - javaNum;
+        } else {
+            mathNum = getNumbersOfQuestions(leftQuestionsMath, leftQuestionsJava, amount);
+            javaNum = amount - mathNum;
+        }
+
         Collection<Question> tempSet = new HashSet<>();
         Collection<Question> tempSetMath = new HashSet<>();
         if (javaNum != 0) {
             tempSet = getRandomCollection(javaQuestionService, javaNum);
-            countJavaQuestions += tempSet.size();
+            countJavaQuestions += javaNum;
         }
         if (mathNum != 0) {
             tempSetMath = getRandomCollection(mathQuestionService, mathNum);
-            countMathQuestions += tempSetMath.size();
+            countMathQuestions += mathNum;
         }
         tempSet.addAll(tempSetMath);
         questionSet.addAll(tempSet);
         return tempSet;
     }
 
-    // -----------
-    private Collection<Question> getRandomCollection (QuestionService qService, int amount) {
+    // =========  Определяем случайное число запрашиваемых вопросов по теме
+    private int getNumbersOfQuestions(int min, int max, int amount) {
+        Random random = new Random();
+        int randomNumbersQuestions = 0;
+        while ((amount - randomNumbersQuestions) > max) {
+            randomNumbersQuestions = random.nextInt(min) + 1;
+        }
+        return randomNumbersQuestions;
+    }
+
+    // -----------  добавляем в коллекцию случайные вопросы
+    private Collection<Question> getRandomCollection(QuestionService qService, int countQuestions) {
         int numbersOfQuestions = 0;
         Collection<Question> tempS = new HashSet<>();
         Question tempQuestion;
-
-        while (numbersOfQuestions < amount) {
+        while (numbersOfQuestions < countQuestions) {
             tempQuestion = qService.getRandomQuestion();
             if (tempS.add(tempQuestion)) {
                 numbersOfQuestions++;
@@ -88,6 +95,7 @@ public class ExaminerServiceImpl implements ExaminerService {
         }
         return tempS;
     }
+
     // -------------------------------------------------------
     private void validateNull(int inputString) {
         if (inputString < 1) {
