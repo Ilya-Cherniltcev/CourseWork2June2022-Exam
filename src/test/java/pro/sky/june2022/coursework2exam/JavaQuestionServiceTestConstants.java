@@ -31,11 +31,11 @@ public class JavaQuestionServiceTestConstants {
             new Question(EXAMPLE_Q3, EXAMPLE_A3),
             new Question(EXAMPLE_Q2, EXAMPLE_A2)));
 
-    public static final Collection ALL_QUESTIONS_SET = new HashSet(List.of(
+    public static final Set <Question>ALL_QUESTIONS_SET = Set.of(
             new Question(EXAMPLE_Q4, EXAMPLE_A4),
             new Question(EXAMPLE_Q1, EXAMPLE_A1),
             new Question(EXAMPLE_Q3, EXAMPLE_A3),
-            new Question(EXAMPLE_Q2, EXAMPLE_A2)));
+            new Question(EXAMPLE_Q2, EXAMPLE_A2));
 
     public static final Collection<Question> EXAMPLE_COLLECTION = new HashSet<>(List.of(
             new Question(EXAMPLE_Q4, EXAMPLE_A4)));
