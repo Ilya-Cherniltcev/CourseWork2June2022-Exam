@@ -21,7 +21,6 @@ public class MathQuestionController {
         this.questionService = questionService;
     }
 
-
     @GetMapping
     public Collection<Question> getAllQuestions() {
         return questionService.getAll();
@@ -38,7 +37,5 @@ public class MathQuestionController {
                                             @RequestParam("answer") String answer) {
         return questionService.remove(questionText, answer);
     }
-
-
 }
 

@@ -1,8 +1,6 @@
 package pro.sky.june2022.coursework2exam;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,15 +23,6 @@ class MathQuestionServiceTests {
     @InjectMocks
     private MathQuestionService questionService;
 
-    // ===== заполняем Math-репозиторий перед всеми тестами =====
-    @BeforeEach
-    public void setup() {
-        questionService.add(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1);
-        questionService.add(MATH_EXAMPLE_Q2, MATH_EXAMPLE_A2);
-        questionService.add(MATH_EXAMPLE_Q3, MATH_EXAMPLE_A3);
-        questionService.add(MATH_EXAMPLE_Q4, MATH_EXAMPLE_A4);
-    }
-
     @Test
     void shouldReturnExceptionIfTheQuestionsStringIsNull() {
         Assertions.assertThrows(WrongRequestOfQuestionsException.class,
@@ -48,29 +37,33 @@ class MathQuestionServiceTests {
 
     @Test
     void shouldReturnExceptionIfTheQuestionIsExist() {
+        Mockito.when(questionRepository.add(MATH_ADDING_QUESTION))
+                .thenThrow(new WrongRequestOfQuestionsException("Alert"));
         Assertions.assertThrows(WrongRequestOfQuestionsException.class,
-                () -> questionService.add(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1));
+                () -> questionService.add(MATH_EXAMPLE_Q5, MATH_EXAMPLE_A5));
     }
-
 
     @Test
     void shouldReturnWriteAddingQuestiongIfStrings() {
+        Mockito.when(questionRepository.add(MATH_ADDING_QUESTION))
+                .thenReturn(MATH_ADDING_QUESTION);
         Question result = questionService.add(MATH_EXAMPLE_Q5, MATH_EXAMPLE_A5);
         Assertions.assertEquals(MATH_ADDING_QUESTION, result);
     }
 
     @Test
     void shouldReturnWriteRemovingQuestiong() {
+        Mockito.when(questionRepository.remove(MATH_REMOVING_QUESTION))
+                .thenReturn(MATH_REMOVING_QUESTION);
         Question result = questionService.remove(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1);
         Assertions.assertEquals(MATH_REMOVING_QUESTION, result);
     }
 
-    @Disabled
+    @Test
     void shouldReturnAllQuestiongs() {
         Mockito.when(questionRepository.getAll())
                 .thenReturn(MATH_ALL_QUESTIONS_SET);
         Collection<Question> results = questionService.getAll();
         Assertions.assertEquals(MATH_ALL_QUESTIONS_SET, results);
     }
-
 }

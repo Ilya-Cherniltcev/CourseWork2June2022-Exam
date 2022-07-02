@@ -2,10 +2,7 @@ package pro.sky.june2022.coursework2exam;
 
 import pro.sky.june2022.coursework2exam.data.Question;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class MathQuestionServiceTestConstants {
     public static final String MATH_EXAMPLE_NULL = null;
@@ -28,21 +25,10 @@ public class MathQuestionServiceTestConstants {
     public static final Question MATH_ADDING_QUESTION = new Question(MATH_EXAMPLE_Q5, MATH_EXAMPLE_A5);
 
     public static final Question MATH_REMOVING_QUESTION = new Question(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1);
-    public static final Collection MATH_ALL_QUESTIONS = new ArrayList(List.of(
+
+    public static final Set<Question> MATH_ALL_QUESTIONS_SET = Set.of(
             new Question(MATH_EXAMPLE_Q4, MATH_EXAMPLE_A4),
             new Question(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1),
             new Question(MATH_EXAMPLE_Q3, MATH_EXAMPLE_A3),
-            new Question(MATH_EXAMPLE_Q2, MATH_EXAMPLE_A2)));
-
-    public static final Collection MATH_ALL_QUESTIONS_SET = new HashSet(List.of(
-            new Question(MATH_EXAMPLE_Q4, MATH_EXAMPLE_A4),
-            new Question(MATH_EXAMPLE_Q1, MATH_EXAMPLE_A1),
-            new Question(MATH_EXAMPLE_Q3, MATH_EXAMPLE_A3),
-            new Question(MATH_EXAMPLE_Q2, MATH_EXAMPLE_A2)));
-
-    public static final Collection<Question> MATH_EXAMPLE_COLLECTION = new HashSet<>(List.of(
-            new Question(MATH_EXAMPLE_Q4, MATH_EXAMPLE_A4)));
-    public static final Question MATH_EXAMPLE_QUESTION = new Question(MATH_EXAMPLE_Q4, MATH_EXAMPLE_A4);
-
-
+            new Question(MATH_EXAMPLE_Q2, MATH_EXAMPLE_A2));
 }

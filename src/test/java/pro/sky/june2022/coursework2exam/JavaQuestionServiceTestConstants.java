@@ -25,13 +25,8 @@ public class JavaQuestionServiceTestConstants {
     public static final Question ADDING_QUESTION = new Question(EXAMPLE_Q5, EXAMPLE_A5);
 
     public static final Question REMOVING_QUESTION = new Question(EXAMPLE_Q1, EXAMPLE_A1);
-    public static final Collection ALL_QUESTIONS = new ArrayList(List.of(
-            new Question(EXAMPLE_Q4, EXAMPLE_A4),
-            new Question(EXAMPLE_Q1, EXAMPLE_A1),
-            new Question(EXAMPLE_Q3, EXAMPLE_A3),
-            new Question(EXAMPLE_Q2, EXAMPLE_A2)));
 
-    public static final Set <Question>ALL_QUESTIONS_SET = Set.of(
+    public static final Set<Question> ALL_QUESTIONS_SET = Set.of(
             new Question(EXAMPLE_Q4, EXAMPLE_A4),
             new Question(EXAMPLE_Q1, EXAMPLE_A1),
             new Question(EXAMPLE_Q3, EXAMPLE_A3),
@@ -40,6 +35,5 @@ public class JavaQuestionServiceTestConstants {
     public static final Collection<Question> EXAMPLE_COLLECTION = new HashSet<>(List.of(
             new Question(EXAMPLE_Q4, EXAMPLE_A4)));
     public static final Question EXAMPLE_QUESTION = new Question(EXAMPLE_Q4, EXAMPLE_A4);
-
 
 }

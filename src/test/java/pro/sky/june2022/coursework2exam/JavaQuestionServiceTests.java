@@ -1,8 +1,6 @@
 package pro.sky.june2022.coursework2exam;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +13,6 @@ import pro.sky.june2022.coursework2exam.interfaces.QuestionRepository;
 import pro.sky.june2022.coursework2exam.services.JavaQuestionService;
 
 import java.util.Collection;
-import java.util.Set;
 
 import static pro.sky.june2022.coursework2exam.JavaQuestionServiceTestConstants.*;
 
@@ -25,15 +22,6 @@ class JavaQuestionServiceTests {
     private QuestionRepository questionRepository;
     @InjectMocks
     private JavaQuestionService questionService;
-
-    // ===== заполняем JAVA-репозиторий перед всеми тестами =====
-    @BeforeEach
-    public void setup() {
-        questionService.add(EXAMPLE_Q1, EXAMPLE_A1);
-        questionService.add(EXAMPLE_Q2, EXAMPLE_A2);
-        questionService.add(EXAMPLE_Q3, EXAMPLE_A3);
-        questionService.add(EXAMPLE_Q4, EXAMPLE_A4);
-    }
 
     @Test
     void shouldReturnExceptionIfTheQuestionsStringIsNull() {
@@ -49,19 +37,24 @@ class JavaQuestionServiceTests {
 
     @Test
     void shouldReturnExceptionIfTheQuestionIsExist() {
+        Mockito.when(questionRepository.add(ADDING_QUESTION))
+                .thenThrow(new WrongRequestOfQuestionsException("Alert"));
         Assertions.assertThrows(WrongRequestOfQuestionsException.class,
-                () -> questionService.add(EXAMPLE_Q1, EXAMPLE_A1));
+                () -> questionService.add(EXAMPLE_Q5, EXAMPLE_A5));
     }
-
 
     @Test
     void shouldReturnWriteAddingQuestiongIfStrings() {
+        Mockito.when(questionRepository.add(ADDING_QUESTION))
+                .thenReturn(ADDING_QUESTION);
         Question result = questionService.add(EXAMPLE_Q5, EXAMPLE_A5);
         Assertions.assertEquals(ADDING_QUESTION, result);
     }
 
     @Test
     void shouldReturnWriteRemovingQuestiong() {
+        Mockito.when(questionRepository.remove(REMOVING_QUESTION))
+                .thenReturn(REMOVING_QUESTION);
         Question result = questionService.remove(EXAMPLE_Q1, EXAMPLE_A1);
         Assertions.assertEquals(REMOVING_QUESTION, result);
     }
@@ -71,7 +64,7 @@ class JavaQuestionServiceTests {
         Mockito.when(questionRepository.getAll())
                 .thenReturn(ALL_QUESTIONS_SET);
         Assertions.assertEquals(ALL_QUESTIONS_SET.size(), questionService.getAll().size());
-      //  Assertions.assertEquals(ALL_QUESTIONS_SET, results);
+        Collection<Question> results = questionService.getAll();
+        Assertions.assertEquals(ALL_QUESTIONS_SET, results);
     }
-
 }

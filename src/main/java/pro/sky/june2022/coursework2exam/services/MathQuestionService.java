@@ -1,8 +1,7 @@
 package pro.sky.june2022.coursework2exam.services;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import pro.sky.june2022.coursework2exam.data.JavaQuestionRepository;
-import pro.sky.june2022.coursework2exam.data.MathQuestionRepository;
 import pro.sky.june2022.coursework2exam.data.Question;
 import pro.sky.june2022.coursework2exam.exceptions.WrongRequestOfQuestionsException;
 import pro.sky.june2022.coursework2exam.interfaces.QuestionRepository;
@@ -13,8 +12,11 @@ import java.util.Random;
 
 @Service
 public class MathQuestionService implements QuestionService {
-    private final QuestionRepository questionRepository = new MathQuestionRepository();
+    private final QuestionRepository questionRepository;
 
+    public MathQuestionService(@Qualifier("mathQuestionRepository") QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
 
     @Override
     public Question add(String question, String answer) {

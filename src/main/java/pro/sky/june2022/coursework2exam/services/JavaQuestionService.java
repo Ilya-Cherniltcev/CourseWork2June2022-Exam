@@ -1,6 +1,6 @@
 package pro.sky.june2022.coursework2exam.services;
 
-import pro.sky.june2022.coursework2exam.data.JavaQuestionRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import pro.sky.june2022.coursework2exam.data.Question;
 import pro.sky.june2022.coursework2exam.exceptions.WrongRequestOfQuestionsException;
 import pro.sky.june2022.coursework2exam.interfaces.QuestionRepository;
@@ -11,8 +11,11 @@ import java.util.*;
 
 @Service
 public class JavaQuestionService implements QuestionService {
-    private final QuestionRepository questionRepository = new JavaQuestionRepository();
+    private final QuestionRepository questionRepository;
 
+    public JavaQuestionService(@Qualifier("javaQuestionRepository") QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
 
     @Override
     public Question add(String question, String answer) {

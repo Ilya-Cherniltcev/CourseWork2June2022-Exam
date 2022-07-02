@@ -32,5 +32,4 @@ public class MathQuestionRepository implements QuestionRepository {
     public Collection<Question> getAll() {
         return questions;
     }
-
 }
